@@ -1,10 +1,86 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Fastest_sliding!</title>
+  <meta charset="utf-8">
+  <title align="center">Fastest Slide</title>
+  <script>
+    function myck(type){
+	  var input;
+      if(type==1){
+        // Compute
+		input = document.getElementById("input").value;
+		input = input.split('\n');
+		var n = parseInt(input[0]);
+		var last_list = new Array();
+		last_list.push(parseInt(input[1]));
+		for (var i=2;i<n+1;i++)
+		{
+    		var temp_list = input[i].split(' ').map(Number);
+			var new_list = new Array();
+			for (var j=0;j<temp_list.length;j++){
+				if (j==0){
+					new_list.push(last_list[j] + temp_list[j]);
+				}else if (j==last_list.length){
+					new_list.push(last_list[j-1] + temp_list[j])
+				}else{
+					var min_value = 0;
+					if (last_list[j-1]>last_list[j]){
+						min_value = last_list[j]
+					}else{
+						min_value = last_list[j-1]}
+					new_list.push(min_value + temp_list[j])
+				}
+			}
+			if (new_list.length - last_list.length != 1){
+					alert('Error Input! The Structure is incorrect!');
+					return 'Error';
+			}
+			last_list = new_list;
+
+		}
+		mini_path_value = last_list[0];
+		for (var i=1;i<last_list.length;i++){
+			if (mini_path_value> last_list[i]){
+				mini_path_value = last_list[i];
+			}
+		}
+
+		var result = mini_path_value;
+        document.getElementById("resultDiv").innerText ="Output："+
+          result;
+      }else if(type==2){
+        if(confirm("Are you sure to clean all the input？")){
+          // clean
+          input.value = "";
+          document.getElementById("resultDiv").innerText="";
+        }
+      }
+    }
+  </script>
 </head>
+
 <body>
-A sample case!
+  <div style="margin-top: 10px;margin-left: 50px;">
+    <span style="font-size: 60px;">Fastest Slide</span>
+  </div>
+	<div>
+     <div style="margin-top: 10px;margin-left: 50px;">Input<br>
+                        <textarea id="input" cols="30" rows="10"></textarea>
+                    </div>
+  </div>
+  <div>
+    <div style="margin-left: 60px;" class="innerDiv">
+      <input type="button" onclick="myck(1)" value="Compute">
+      <input type="button" value="Clean" onclick="document.getElementById('input').value=''">
+    </div>
+  </div>
+  <div id="resultDiv">
+
+  </div>
 </body>
+<style>
+  .innerDiv{
+    margin-left: 420px;
+    margin-top: 20px;
+  }
+</style>
 </html>
